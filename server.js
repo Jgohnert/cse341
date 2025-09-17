@@ -1,12 +1,10 @@
-const express = require('express');
+const express = require("express");
 const app = express();
- 
-app.get('/', (req, res) => {
-  res.send("Louise Gohnert");
-});
 
 const port = 3000
- 
+
+app.use("/", require("./routes"))
+// Statement to confirm server operation
 app.listen(process.env.PORT || port, () => {
-  console.log('Web Server is listening at port ' + (process.env.PORT || port));
+  console.log("Web Server is listening at port" + (process.env.PORT || port));
 });

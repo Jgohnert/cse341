@@ -1,6 +1,9 @@
 const routes = require("express").Router();
-const week1controller = require("../controllers/homeController");
+const homeRoute = require("../controllers/homeController");
+const contacts = require("./contactsRoute");
 
-routes.get("/", week1controller.homepageRoute);
+routes.get("/", homeRoute.homepageRoute);
+
+routes.use("/contacts", contacts);
 
 module.exports = routes;

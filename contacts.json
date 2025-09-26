@@ -1,0 +1,23 @@
+[
+  {
+    "firstName": "Tyler",
+    "lastName": "Gohnert",
+    "email": "tyleremail@email.com",
+    "favoriteColor": "Gold",
+    "birthday": "5/8/1998"
+  },
+  {
+    "firstName": "Matthew",
+    "lastName": "Gohnert",
+    "email": "mattemail@email.com",
+    "favoriteColor": "Baby blue",
+    "birthday": "9/13/1999"
+  },
+  {
+    "firstName": "Luke",
+    "lastName": "Gohnert",
+    "email": "lukeemail@email.com",
+    "favoriteColor": "Green",
+    "birthday": "8/12/2001"
+  }
+]

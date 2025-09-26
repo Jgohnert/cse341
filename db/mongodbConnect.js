@@ -3,23 +3,29 @@ require("dotenv").config();
 
 const {MongoClient} = require("mongodb");
 
-async function main() {
-    //gets the URI from the .env file. It's to prevent sensitive information
-    //from getting pushed to github.
-    const mongodbURI = process.env.MONGODB_URI;
-    const client = new MongoClient(mongodbURI);
+//gets the URI from the .env file. It's to prevent sensitive information
+//from getting pushed to github.
+const client = new MongoClient(process.env.MONGODB_URI);
 
-    try {
-        await client.connect();
+let _db;
 
-        await listDatabases(client);
-
-    } catch (error) {
-        console.error(error);
-
-    } finally {
-        await client.close();
+async function connectDb() {
+  try {
+    if (_db) {
+      console.log("DB is already initialized.");
+      return _db;
     }
+
+    _db = client.db("cse341");
+    await client.connect();
+    await listDatabases(client);
+
+    return _db;
+
+  } catch (error) {
+    console.error("Error connecting to MongoDB:", error);
+    throw error;
+  }
 }
 
 // Function to show the lists within the mongo database
@@ -31,4 +37,14 @@ async function listDatabases(client) {
    });
 }
 
-main()
+function getDb() {
+  if (!_db) {
+    throw Error("Database is not initialized.");
+  }
+  return _db;
+}
+
+module.exports = {
+    getDb,
+    connectDb
+};

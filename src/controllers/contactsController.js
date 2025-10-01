@@ -71,7 +71,7 @@ async function deleteContact(req, res) {
     _id: contactId
   });
 
-  res.status(204).send();
+  res.status(200).send();
   console.log("Deleted Contact:");
   console.log(contact);
 }

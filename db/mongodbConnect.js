@@ -1,7 +1,9 @@
 //The dotenv is used to load variables from a .env file and puts it into the process.env
 require("dotenv").config();
 
-const {MongoClient} = require("mongodb");
+const {
+  MongoClient
+} = require("mongodb");
 
 //gets the URI from the .env file. It's to prevent sensitive information
 //from getting pushed to github.
@@ -30,11 +32,11 @@ async function connectDb() {
 
 // Function to show the lists within the mongo database
 async function listDatabases(client) {
-   const databasesList = await client.db().admin().listDatabases();
-   console.log("databases:");
-   databasesList.databases.forEach(db => {
+  const databasesList = await client.db().admin().listDatabases();
+  console.log("databases:");
+  databasesList.databases.forEach(db => {
     console.log(`▪ ${db.name}`);
-   });
+  });
 }
 
 function getDb() {
@@ -45,6 +47,6 @@ function getDb() {
 }
 
 module.exports = {
-    getDb,
-    connectDb
+  getDb,
+  connectDb
 };

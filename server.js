@@ -1,5 +1,5 @@
-// require('./swagger');
 const express = require("express");
+const cors = require("cors");
 const app = express();
 const mongodb = require("./db/mongodbConnect");
 
@@ -8,6 +8,11 @@ const swaggerDocument = require("./swagger.json");
 
 app
   .use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+  .use(cors())
+  .use(express.json())
+  .use(express.urlencoded({
+    extended: true
+  }))
   .use("/", require("./src/routes"));
 
 const port = process.env.PORT || 3000;

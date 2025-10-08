@@ -5,7 +5,7 @@ const doc = {
         title: "Contacts API",
         description: "Description"
     },
-    host: "localhost:3000"
+    host: "https://cse341-jgohn.onrender.com"
 };
 
 const outputFile = "./swagger.json";

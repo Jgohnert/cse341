@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
-const mongodb = require("./db/mongodbConnect");
 const bodyParser = require("body-parser");
+const mongodb = require("./db/mongodbConnect");
 
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger.json");
@@ -17,6 +17,7 @@ app
     );
     res.setHeader("Content-Type", "application/json");
     res.setHeader("Access-Control-Methods", "GET, POST, PUT, DELETE");
+    next();
   })
 
   .use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))

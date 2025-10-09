@@ -1,23 +1,23 @@
 const express = require("express");
 const app = express();
 const mongodb = require("./db/mongodbConnect");
-// const bodyParser = require("body-parser");
+const bodyParser = require("body-parser");
 
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger.json");
 
 app
 
-  // .use(bodyParser.json())
-  // .use((req, res, next) => {
-  //   res.setHeader("Access-Control-Allow-Origin", "*");
-  //   res.setHeader(
-  //     "Access-Control-Allow-Headers",
-  //     "Origin, X-Requested-With, Content-Type, Accept, Z-Key"
-  //   );
-  //   res.setHeader("Content-Type", "application/json");
-  //   res.setHeader("Access-Control-Methods", "GET, POST, PUT, DELETE");
-  // })
+  .use(bodyParser.json())
+  .use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept, Z-Key"
+    );
+    res.setHeader("Content-Type", "application/json");
+    res.setHeader("Access-Control-Methods", "GET, POST, PUT, DELETE");
+  })
 
   .use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
   .use("/", require("./src/routes"));

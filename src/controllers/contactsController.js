@@ -6,6 +6,12 @@ async function allContacts(req, res) {
   const db = mongodb.getDb();
   const contactList = await db.collection("contacts").find().toArray();
 
+  if (!contactList || contactList.length === 0) {
+    res.status(400).json({
+      message: "Contact not found."
+    });
+  }
+
   res.status(200).json(contactList);
   // console.log("All Contacts:");
   // contactList.forEach((contact) => console.log(contact));
@@ -13,11 +19,24 @@ async function allContacts(req, res) {
 
 async function singleContact(req, res) {
   const db = mongodb.getDb();
-  const contactId = new ObjectId(req.params.id);
+  const id = req.params.id;
+
+  if (!ObjectId.isValid(id)) {
+    return res.status(400).json({
+      message: "Use a valid id."
+    });
+  }
+
+  const contactId = new ObjectId(id);
 
   const contact = await db.collection("contacts").find({
     _id: contactId
   }).toArray();
+  if (!contact || contact.length === 0) {
+    res.status(400).json({
+      message: "Contact not found."
+    });
+  }
 
   res.status(200).json(contact);
   // console.log("Single Contact:");
@@ -37,14 +56,28 @@ async function createContact(req, res) {
 
   const contact = await db.collection("contacts").insertOne(newInfo);
 
-  res.status(201).json(contact);
-  console.log("New Contact:");
-  console.log(contact);
+  if (contact.acknowledged) {
+    res.status(201).json(contact);
+    console.log("New Contact:");
+    console.log(contact);
+  } else {
+    res.status(500).json({
+      message: "Failed to create contact."
+    });
+  }
 }
 
 async function updateContact(req, res) {
   const db = mongodb.getDb();
-  const contactId = new ObjectId(req.params.id);
+  const id = req.params.id;
+
+  if (!ObjectId.isValid(id)) {
+    return res.status(400).json({
+      message: "Use a valid id."
+    });
+  }
+
+  const contactId = new ObjectId(id);
 
   const updatedInfo = {
     firstName: req.body.firstName,
@@ -58,22 +91,44 @@ async function updateContact(req, res) {
     _id: contactId
   }, updatedInfo);
 
-  res.status(204).send();
-  console.log("Updated Contact:");
-  console.log(contact);
+  if (contact.modifiedCount > 0) {
+    res.status(204).send();
+    console.log("Updated Contact:");
+    console.log(contact);
+  } else {
+    res.status(500).json({
+      message: "Failed to update contact."
+    });
+  }
 }
 
 async function deleteContact(req, res) {
   const db = mongodb.getDb();
-  const contactId = new ObjectId(req.params.id);
+  const id = req.params.id;
+
+  if (!ObjectId.isValid(id)) {
+    return res.status(400).json({
+      message: "Use a valid id."
+    });
+  }
+
+  const contactId = new ObjectId(id);
 
   const contact = await db.collection("contacts").deleteOne({
     _id: contactId
   });
 
-  res.status(200).send();
-  console.log("Deleted Contact:");
-  console.log(contact);
+  if (contact.deletedCount > 0) {
+    res.status(204).send();
+    console.log("Deleted Contact:");
+    console.log(contact);
+  } else {
+    res.status(500).json({
+      message: "Failed to delete contact."
+    });
+  }
+
+
 }
 
 module.exports = {
